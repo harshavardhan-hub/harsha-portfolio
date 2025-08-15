@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "build": "cd frontend && npm install && npm run build",
-    "install": "cd backend && npm install && cd ../frontend && npm install",
+    "postbuild": "echo 'Build completed. Contents:' && ls -la frontend/dist",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
   },
   "engines": {
