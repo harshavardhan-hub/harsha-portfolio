@@ -14,23 +14,29 @@ app.use(cors({
 }))
 app.use(express.json())
 
-// API Routes FIRST (before static files)
-app.use('/api/contact', require('./routes/contact'))
+// Simple contact route for now
+app.post('/api/contact', async (req, res) => {
+  try {
+    console.log('Contact form submission:', req.body)
+    res.json({ success: true, message: 'Message received!' })
+  } catch (error) {
+    console.error('Contact error:', error)
+    res.status(500).json({ success: false, error: 'Failed to send message' })
+  }
+})
 
-// Health check endpoint
+// Health check
 app.get('/api/health', (req, res) => {
   res.json({ message: 'Server is running!', timestamp: new Date().toISOString() })
 })
 
-// Serve static files from React build
+// Serve static files
 if (process.env.NODE_ENV === 'production') {
-  // Set static folder
   const buildPath = path.join(__dirname, '../frontend/dist')
   console.log('Serving static files from:', buildPath)
   
   app.use(express.static(buildPath))
   
-  // Catch all handler: send back React's index.html file for any non-API routes
   app.get('*', (req, res) => {
     console.log('Serving index.html for route:', req.path)
     res.sendFile(path.join(buildPath, 'index.html'))
@@ -41,23 +47,12 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-// Database connection
+// Database connection (optional for now)
 if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch((err) => console.error('MongoDB connection error:', err))
-} else {
-  console.warn('MONGODB_URI not provided, running without database')
+  mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.error('MongoDB connection error:', err))
 }
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Error:', err)
-  res.status(500).json({ error: 'Something went wrong!' })
-})
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
