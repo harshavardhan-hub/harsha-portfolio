@@ -1,18 +1,88 @@
-import React from 'react'
-import { FaMapMarkerAlt, FaLinkedin, FaGithub, FaInstagram, FaArrowRight, FaDownload } from 'react-icons/fa'
+import React, { useState } from 'react'
+import { FaMapMarkerAlt, FaLinkedin, FaGithub, FaInstagram, FaArrowRight, FaDownload, FaSpinner, FaCheck } from 'react-icons/fa'
 import MorphingParticleBackground from './MorphingParticleBackground'
 
-
 const Hero = () => {
+  const [downloadState, setDownloadState] = useState('idle') // 'idle', 'downloading', 'downloaded'
+
   const scrollToContact = () => {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const handleDownload = async () => {
+    if (downloadState !== 'idle') return
+
+    setDownloadState('downloading')
+    
+    try {
+      // Create download link
+      const link = document.createElement('a')
+      link.href = '/resume.pdf'
+      link.download = 'Harsha_Vardhan_Yanakandla_Resume.pdf'
+      
+      // Simulate download time for better UX
+      setTimeout(() => {
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        
+        // Show downloaded state
+        setDownloadState('downloaded')
+        
+        // Reset to idle after 3 seconds
+        setTimeout(() => {
+          setDownloadState('idle')
+        }, 3000)
+      }, 1500) // 1.5 second download simulation
+      
+    } catch (error) {
+      console.error('Download failed:', error)
+      setDownloadState('idle')
+    }
+  }
+
+  const getDownloadButtonContent = () => {
+    switch (downloadState) {
+      case 'downloading':
+        return (
+          <>
+            <FaSpinner size={14} className="flex-shrink-0 animate-spin" />
+            <span className="transition-all duration-300">Downloading...</span>
+          </>
+        )
+      case 'downloaded':
+        return (
+          <>
+            <FaCheck size={14} className="flex-shrink-0 text-green-500 animate-bounce" />
+            <span className="transition-all duration-300">Downloaded!</span>
+          </>
+        )
+      default:
+        return (
+          <>
+            <FaDownload size={14} className="flex-shrink-0" />
+            <span className="transition-all duration-300">Download CV</span>
+          </>
+        )
+    }
+  }
+
+  const getDownloadButtonClasses = () => {
+    const baseClasses = "px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base flex items-center justify-center gap-3 w-full sm:w-auto min-w-[160px] sm:min-w-[180px] transition-all duration-500 transform"
+    
+    switch (downloadState) {
+      case 'downloading':
+        return `${baseClasses} bg-blue-50 border-2 border-blue-200 text-blue-700 cursor-wait scale-[0.98] shadow-inner`
+      case 'downloaded':
+        return `${baseClasses} bg-green-50 border-2 border-green-200 text-green-700 cursor-default scale-105 shadow-lg animate-pulse`
+      default:
+        return `${baseClasses} btn-secondary hover:scale-105 hover:shadow-lg active:scale-95`
+    }
+  }
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden hero-custom-bg">
       <MorphingParticleBackground />
-
 
       {/* Mobile Availability Status - Centered */}
       <div className="lg:hidden absolute top-6 left-1/2 transform -translate-x-1/2 z-20 animate-fade-in">
@@ -24,7 +94,6 @@ const Hero = () => {
           <p className="text-xs text-gray-500 text-center transition-all duration-300 hover:text-gray-600">Open to new opportunities</p>
         </div>
       </div>
-
 
       {/* Main Content Container */}
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 relative z-10">
@@ -72,7 +141,6 @@ const Hero = () => {
               </div>
             </div>
 
-
             {/* Call to Action Buttons */}
             <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 w-full sm:w-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               <button
@@ -83,16 +151,36 @@ const Hero = () => {
                 <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
               </button>
               
-              <a
-                href="/resume.pdf"
-                download
-                className="btn-secondary px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base flex items-center justify-center gap-3 w-full sm:w-auto min-w-[160px] sm:min-w-[180px]"
+              <button
+                onClick={handleDownload}
+                disabled={downloadState === 'downloading'}
+                className={getDownloadButtonClasses()}
               >
-                <FaDownload size={14} className="flex-shrink-0" />
-                Download CV
-              </a>
+                {getDownloadButtonContent()}
+              </button>
             </div>
 
+            {/* Download Status Message */}
+            {downloadState !== 'idle' && (
+              <div className="animate-fade-in-up">
+                <div className="flex items-center gap-2 text-sm">
+                  {downloadState === 'downloading' && (
+                    <div className="flex items-center gap-2 text-blue-600">
+                      <div className="w-4 h-1 bg-blue-200 rounded-full overflow-hidden">
+                        <div className="w-full h-full bg-blue-500 rounded-full animate-pulse"></div>
+                      </div>
+                      <span className="font-medium">Preparing to Download...</span>
+                    </div>
+                  )}
+                  {downloadState === 'downloaded' && (
+                    <div className="flex items-center gap-2 text-green-600 animate-fade-in">
+                      <FaCheck size={12} className="animate-bounce" />
+                      <span className="font-medium">Resume Downloaded Successfully!</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Social Integration */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 w-full animate-fade-in-up" style={{animationDelay: '0.3s'}}>
@@ -129,7 +217,6 @@ const Hero = () => {
             </div>
           </div>
 
-
           {/* Right Side - Simple Availability Status (Desktop Only) */}
           <div className="hidden lg:flex flex-col justify-center items-center ml-8 xl:ml-12 relative h-full animate-fade-in-up" style={{animationDelay: '0.5s'}}>
             <div className="text-center">
@@ -143,7 +230,6 @@ const Hero = () => {
                 <p className="text-xs text-gray-500">Open to new opportunities</p>
               </div>
 
-
             </div>
           </div>
         </div>
@@ -151,6 +237,5 @@ const Hero = () => {
     </section>
   )
 }
-
 
 export default Hero

@@ -32,8 +32,8 @@ const Projects = () => {
       image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=450&fit=crop&auto=format&q=80',
       technologies: ['React 18.2.0', 'Vite', 'Tailwind CSS 3.3.5', 'Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'React Icons 4.11.0', 'React Toastify 9.1.3'],
       status: 'Completed',
-      github: 'https://github.com/harshavardhan-hub/portfolio-website',
-      demo: 'https://harshavardhan-portfolio.com'
+      github: 'https://github.com/harshavardhan-hub/harsha-portfolio',
+      demo: 'https://harsha-portfolio-y6ty.onrender.com'
     }
   ]
 
