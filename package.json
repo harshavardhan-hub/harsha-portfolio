@@ -5,8 +5,10 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "cd frontend && npm install && npm run build",
-    "postbuild": "echo 'Build completed. Contents:' && ls -la frontend/dist",
+    "build": "npm run install-deps && npm run build-frontend",
+    "install-deps": "cd backend && npm install && cd ../frontend && npm install",
+    "build-frontend": "cd frontend && npm run build",
+    "postbuild": "echo 'Build completed. Checking contents:' && ls -la frontend/dist && echo 'Files count:' && find frontend/dist -type f | wc -l",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
   },
   "engines": {
