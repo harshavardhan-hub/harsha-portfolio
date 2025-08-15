@@ -12,12 +12,16 @@ const contactLimiter = rateLimit({
   message: {
     success: false,
     message: 'Too many contact form submissions. Please try again later.'
-  }
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
 })
 
 // Submit contact form
 router.post('/', contactLimiter, async (req, res) => {
   try {
+    console.log('📧 Contact form submission received:', req.body)
+    
     const { name, email, phone, subject, message } = req.body
 
     // Validation
@@ -35,17 +39,19 @@ router.post('/', contactLimiter, async (req, res) => {
       phone: phone ? phone.trim() : '',
       subject: subject.trim(),
       message: message.trim(),
-      ipAddress: req.ip,
+      ipAddress: req.ip || req.connection.remoteAddress,
       userAgent: req.get('User-Agent')
     })
 
     const savedContact = await contactData.save()
+    console.log('✅ Contact saved:', savedContact._id)
 
-    // Send notification to Harsha only
-    try {
-      await sendWhatsAppMessage(
-        process.env.HARSHA_WHATSAPP_NUMBER,
-        `🔔 New Contact Form Submission
+    // Send WhatsApp notification (if configured)
+    if (process.env.HARSHA_WHATSAPP_NUMBER) {
+      try {
+        await sendWhatsAppMessage(
+          process.env.HARSHA_WHATSAPP_NUMBER,
+          `🔔 New Contact Form Submission
 
 👤 Name: ${name}
 📧 Email: ${email}
@@ -59,11 +65,12 @@ ${message}
 
 ---
 Reply directly to: ${email}`
-      )
-      console.log('✅ Notification sent to Harsha')
-    } catch (whatsappError) {
-      console.error('❌ WhatsApp notification failed:', whatsappError)
-      // Continue even if WhatsApp fails
+        )
+        console.log('✅ Notification sent to Harsha')
+      } catch (whatsappError) {
+        console.error('❌ WhatsApp notification failed:', whatsappError)
+        // Continue even if WhatsApp fails
+      }
     }
 
     res.status(201).json({
@@ -73,7 +80,7 @@ Reply directly to: ${email}`
     })
 
   } catch (error) {
-    console.error('Contact form error:', error)
+    console.error('❌ Contact form error:', error)
     
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => err.message)
@@ -116,7 +123,7 @@ router.get('/all', async (req, res) => {
       }
     })
   } catch (error) {
-    console.error('Get contacts error:', error)
+    console.error('❌ Get contacts error:', error)
     res.status(500).json({
       success: false,
       message: 'Failed to fetch contacts'
@@ -141,7 +148,7 @@ router.get('/:id', async (req, res) => {
       data: contact
     })
   } catch (error) {
-    console.error('Get contact error:', error)
+    console.error('❌ Get contact error:', error)
     res.status(500).json({
       success: false,
       message: 'Failed to fetch contact'
@@ -179,7 +186,7 @@ router.patch('/:id/status', async (req, res) => {
       data: contact
     })
   } catch (error) {
-    console.error('Update contact error:', error)
+    console.error('❌ Update contact error:', error)
     res.status(500).json({
       success: false,
       message: 'Failed to update contact'
