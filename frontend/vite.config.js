@@ -8,22 +8,18 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
+    minify: 'terser',
     rollupOptions: {
       output: {
-        manualChunks: undefined,
-      },
-    },
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          icons: ['react-icons']
+        }
+      }
+    }
   },
   server: {
     port: 3000,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:10000',
-        changeOrigin: true,
-      },
-    },
-  },
-  preview: {
-    port: 3000
+    host: true
   }
 })
