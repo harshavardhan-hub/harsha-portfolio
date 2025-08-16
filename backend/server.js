@@ -11,8 +11,11 @@ dotenv.config()
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-
 const app = express()
+
+// SINGLE LINE - Trust Railway's proxy
+app.set('trust proxy', 1)
+
 const PORT = process.env.PORT || 10000
 
 console.log('🚀 Starting server...')
