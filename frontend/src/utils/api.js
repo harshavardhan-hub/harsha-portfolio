@@ -1,7 +1,22 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.PROD ? '/api' : 'http://localhost:10000/api')
+// Support both new VITE_BACKEND_URL and legacy VITE_API_URL
+const getApiBaseUrl = () => {
+  // Priority 1: New VITE_BACKEND_URL (full backend URL)
+  if (import.meta.env.VITE_BACKEND_URL) {
+    return import.meta.env.VITE_BACKEND_URL
+  }
+  
+  // Priority 2: Legacy VITE_API_URL (API endpoint)
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL
+  }
+  
+  // Priority 3: Default fallback
+  return import.meta.env.PROD ? '/api' : 'http://localhost:10000/api'
+}
+
+const API_BASE_URL = getApiBaseUrl()
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -14,7 +29,7 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
-    console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`)
+    console.log(`Making ${config.method?.toUpperCase()} request to ${config.baseURL}${config.url}`)
     return config
   },
   (error) => {
