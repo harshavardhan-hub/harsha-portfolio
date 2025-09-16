@@ -56,7 +56,7 @@ const About = () => {
                         <h4 className="font-semibold text-charcoal text-base mb-1">
                           Jawaharlal Nehru Technological University Anantapur
                         </h4>
-                        <p className="text-sm text-medium-gray font-medium mb-1">Bachelor of Technology</p>
+                        <p className="text-sm text-medium-gray font-medium mb-1">Bachelor of Technology, Electronics & Communication Engineering</p>
                         <span className="text-xs text-medium-gray italic">2022 - 2026</span>
                       </div>
                     </div>
@@ -67,7 +67,7 @@ const About = () => {
                       <div className="absolute left-1.5 top-4 w-px h-full bg-gradient-to-b from-charcoal/20 to-transparent"></div>
                       <div>
                         <h4 className="font-semibold text-charcoal text-base mb-1">Narayana Junior College</h4>
-                        <p className="text-sm text-medium-gray font-medium mb-1">Intermediate</p>
+                        <p className="text-sm text-medium-gray font-medium mb-1">Intermediate, MPC</p>
                         <span className="text-xs text-medium-gray italic">2020 - 2022</span>
                       </div>
                     </div>
@@ -77,7 +77,7 @@ const About = () => {
                       <div className="absolute left-0 top-1 w-3 h-3 bg-charcoal/50 rounded-full"></div>
                       <div>
                         <h4 className="font-semibold text-charcoal text-base mb-1">Sri Chaithanya School</h4>
-                        <p className="text-sm text-medium-gray font-medium mb-1">School</p>
+                        <p className="text-sm text-medium-gray font-medium mb-1">High School</p>
                         <span className="text-xs text-medium-gray italic">2016 - 2020</span>
                       </div>
                     </div>
