@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaArrowRight, FaLinkedin } from 'react-icons/fa'
+import { FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaArrowRight, FaLinkedin, FaSpinner } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { submitContact } from '../utils/api'
 
@@ -12,6 +12,7 @@ const Contact = () => {
     message: ''
   })
   const [loading, setLoading] = useState(false)
+  const [retryStatus, setRetryStatus] = useState('')
 
   // Phone number formatting function
   const formatPhoneNumber = (value) => {
@@ -85,6 +86,7 @@ const Contact = () => {
     }
     
     setLoading(true)
+    setRetryStatus('')
 
     try {
       // Ensure phone number is in correct format for backend
@@ -92,8 +94,42 @@ const Contact = () => {
         ...formData,
         phone: formData.phone.startsWith('+') ? formData.phone : `+91${formData.phone.replace(/^91/, '')}`
       }
+
+      // Show initial attempt toast
+      const loadingToast = toast.loading('Sending your message...', {
+        position: "top-center",
+      })
       
-      const response = await submitContact(submissionData)
+      const response = await submitContact(submissionData, (attemptNumber, error) => {
+        // Update retry status for user feedback
+        if (attemptNumber === 1) {
+          setRetryStatus('Server is waking up, please wait...')
+          toast.update(loadingToast, {
+            render: 'Server is waking up, please wait...',
+            type: "info",
+            isLoading: true,
+            autoClose: false,
+          })
+        } else if (attemptNumber <= 3) {
+          setRetryStatus(`Retrying... (attempt ${attemptNumber + 1})`)
+          toast.update(loadingToast, {
+            render: `Retrying... (attempt ${attemptNumber + 1})`,
+            type: "info",
+            isLoading: true,
+            autoClose: false,
+          })
+        } else {
+          setRetryStatus(`Still trying... (attempt ${attemptNumber + 1})`)
+          toast.update(loadingToast, {
+            render: `Still trying... (attempt ${attemptNumber + 1})`,
+            type: "info",
+            isLoading: true,
+            autoClose: false,
+          })
+        }
+      })
+
+      toast.dismiss(loadingToast)
       
       if (response.success) {
         toast.success(`Thank you ${formData.name}! Your message has been sent successfully. I will get back to you soon!`, {
@@ -116,11 +152,20 @@ const Contact = () => {
         toast.error('Something went wrong. Please try again.')
       }
     } catch (error) {
-      toast.error('Failed to send message. Please try again.')
+      toast.dismiss()
+      toast.error(error.message || 'Failed to send message. Please try again.', {
+        position: "top-center",
+        autoClose: 8000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      })
       console.error('Contact form error:', error)
     }
 
     setLoading(false)
+    setRetryStatus('')
   }
 
   const contactInfo = [
@@ -209,7 +254,8 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition"
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Your full name"
                     />
                   </div>
@@ -223,7 +269,8 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition"
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="your.email@example.com"
                     />
                   </div>
@@ -240,12 +287,11 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition"
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="+91 9876543210"
                     />
-                    <p className="text-xs text-medium-gray mt-1">
-                      Enter with or without +91 country code
-                    </p>
+    
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-charcoal mb-3">
@@ -257,7 +303,8 @@ const Contact = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition"
+                      disabled={loading}
+                      className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition disabled:opacity-50 disabled:cursor-not-allowed"
                       placeholder="Project inquiry"
                     />
                   </div>
@@ -273,10 +320,21 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition resize-none"
+                    disabled={loading}
+                    className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition resize-none disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Tell me about your project requirements, timeline, and budget..."
                   ></textarea>
                 </div>
+
+                {/* Retry Status */}
+                {retryStatus && (
+                  <div className="mb-6">
+                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center gap-3">
+                      <FaSpinner className="animate-spin text-blue-500 flex-shrink-0" />
+                      <span className="text-sm text-blue-700 font-medium">{retryStatus}</span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Send Message Note */}
                 <div className="mb-6 text-center">
@@ -290,8 +348,9 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn-primary px-4 md:px-8 py-3 md:py-4 rounded-full font-semibold text-sm md:text-lg flex items-center gap-2 md:gap-3 smooth-transition group disabled:opacity-50 w-full md:w-auto justify-center"
+                  className="btn-primary px-4 md:px-8 py-3 md:py-4 rounded-full font-semibold text-sm md:text-lg flex items-center gap-2 md:gap-3 smooth-transition group disabled:opacity-50 w-full md:w-auto justify-center disabled:cursor-not-allowed"
                 >
+                  {loading && <FaSpinner className="animate-spin" />}
                   <span className="block md:hidden">
                     {loading ? 'Sending...' : 'Send to Harsha'}
                   </span>
