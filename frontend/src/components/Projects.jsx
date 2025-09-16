@@ -23,7 +23,7 @@ const Projects = () => {
       technologies: ['React', 'Vite', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'React Icons', 'React Toastify'],
       status: 'Completed',
       github: 'https://github.com/harshavardhan-hub/harsha-portfolio',
-      demo: 'https://harsha-portfolio-y6ty.onrender.com'
+      demo: 'https://harsha-portfolio-teal.vercel.app/'
     },
     {
       id: 3,
