@@ -29,8 +29,8 @@ const Skills = () => {
       skills: [
         { name: 'Git/GitHub', level: 90 },
         { name: 'VS Code', level: 95 },
-        { name: 'Vercel', level: 85 },
-        { name: 'Bolt', level: 75 },
+        { name: 'Vercel', level: 90 },
+        { name: 'Render', level: 95 },
         { name: 'MongoDB Atlas', level: 80 },
         { name: 'Firebase', level: 80 }
       ]

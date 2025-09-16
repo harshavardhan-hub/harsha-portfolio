@@ -133,10 +133,9 @@ const Hero = () => {
               {/* Description */}
               <div className="w-full max-w-2xl lg:max-w-3xl">
                 <p className="text-sm sm:text-base md:text-lg lg:text-xl text-medium-gray leading-relaxed">
-                  I am a passionate Full Stack Developer who builds high-performance, scalable web applications 
-                    with clean, maintainable code. By leveraging modern technologies and AI-powered tools, 
-                    I work smarter and deliver innovative solutions faster. My focus is on creating impactful 
-                    digital experiences that not only meet business goals but also exceed user expectations.
+                  I’m Harsha Vardhan Yanakandla, a Full Stack Developer who creates fast, scalable, and reliable web applications. I build with modern technologies like React, Node.js, 
+                  and PostgreSQL, and enhance them with AI-powered features to deliver smarter solutions. I focus on writing clean, maintainable code, collaborating effectively with teams, 
+                  and turning ideas into real products. My goal is to craft digital experiences that are user-friendly, high-performing, and impactful.
                 </p>
               </div>
             </div>

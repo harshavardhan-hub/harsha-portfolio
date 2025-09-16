@@ -16,20 +16,22 @@ const About = () => {
             </h2>
             <div className="space-y-6 text-medium-gray leading-relaxed">
               <p className="text-base lg:text-lg">
-                Hello! I'm Harsha Vardhan Yanakandla, a dedicated Full Stack Developer with 2 months of 
-                professional internship experience at <strong>FlashFire Private Limited</strong> and a strong 
-                portfolio of hands-on projects that solve real-world problems.
+                I have gained hands-on experience from a <strong>paid internship at Raizzify </strong> 
+                and an internship at <strong>FlashFire Private Limited</strong>, where I worked on 
+                real-world full-stack projects that focused on innovation, scalability, and solving 
+                practical challenges.
               </p>
               <p className="text-base lg:text-lg">
-                I specialize in crafting scalable, high-quality web applications using modern technologies, 
-                while strategically integrating AI tools to boost efficiency, speed up development, and enhance 
-                innovation — without compromising on creativity or problem-solving skills.
+                During these experiences, I contributed to building complete web applications, integrated 
+                AI-powered features to enhance functionality, and collaborated closely with teams to deliver 
+                reliable and high-performing solutions that meet real business needs.
               </p>
               <p className="text-base lg:text-lg">
-                My passion lies in turning ideas into impactful digital experiences that deliver value for both 
-                users and businesses. Whether it's building from scratch or optimizing existing systems, I approach 
-                every challenge with a growth mindset and a focus on results.
+                My passion lies in transforming ideas into impactful digital products that deliver value 
+                to both users and businesses. Whether developing from the ground up or improving existing 
+                systems, I approach every project with curiosity, creativity, and a results-driven mindset.
               </p>
+
             </div>
             
             <div className="mt-8 flex items-center gap-4">
