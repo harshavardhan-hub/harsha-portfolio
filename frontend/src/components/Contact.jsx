@@ -128,17 +128,6 @@ const Contact = () => {
           {/* Contact Form - Right Side */}
           <div className="lg:col-span-7 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-light-gray/50">
-              {/* Direct Message Info */}
-              <div className="mb-8 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-xl border border-blue-100">
-                <div className="flex items-center gap-3 mb-2">
-                  <FaWhatsapp className="text-green-600 text-lg" />
-                  <h3 className="font-semibold text-charcoal">Direct Message Form</h3>
-                </div>
-                <p className="text-sm text-medium-gray leading-relaxed">
-                  This form sends your message directly to Harsha. You'll receive an instant WhatsApp notification 
-                  confirming your inquiry, and I'll respond within 24 hours with personalized solutions for your project.
-                </p>
-              </div>
 
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -220,9 +209,11 @@ const Contact = () => {
 
                 {/* Send Message Note */}
                 <div className="mb-6 text-center">
-                  <p className="text-sm text-medium-gray">
-                    🚀 Your message will be sent directly to Harsha's inbox with instant notification
-                  </p>
+                  <div className="mb-6 text-center">
+                    <p className="text-sm text-medium-gray">
+                      <FaWhatsapp className="text-green-600 text-lg inline mr-1" /> Your message will be sent directly to Harsha's WhatsApp with instant notification
+                    </p>
+                  </div>
                 </div>
 
                 <button

@@ -17,7 +17,7 @@ const Hero = () => {
     try {
       // Create download link
       const link = document.createElement('a')
-      link.href = '/resume.pdf'
+      link.href = '/Harsha Vardhan Yanakandla - PF Resume.pdf'
       link.download = 'Harsha_Vardhan_Yanakandla_Resume.pdf'
       
       // Simulate download time for better UX
@@ -196,7 +196,7 @@ const Hero = () => {
                   <FaLinkedin size={16} />
                 </a>
                 <a 
-                  href="https://github.com/harshavardhan" 
+                  href="https://github.com/harshavardhan-hub" 
                   className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-charcoal text-white rounded-full flex items-center justify-center smooth-transition hover:-translate-y-2 hover:shadow-lg flex-shrink-0"
                   target="_blank"
                   rel="noopener noreferrer"
