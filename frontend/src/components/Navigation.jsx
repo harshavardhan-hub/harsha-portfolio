@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaHome, FaUser, FaCog, FaLaptopCode, FaEnvelope } from 'react-icons/fa'
+import { FaHome, FaUser, FaCog, FaLaptopCode, FaEnvelope, FaCertificate } from 'react-icons/fa'
 
 const Navigation = ({ activeSection }) => {
   const navItems = [
@@ -7,6 +7,7 @@ const Navigation = ({ activeSection }) => {
     { id: 'about', label: 'About', icon: FaUser },
     { id: 'skills', label: 'Skills', icon: FaCog },
     { id: 'projects', label: 'Projects', icon: FaLaptopCode },
+    { id: 'certificates', label: 'Certificates', icon: FaCertificate },
     { id: 'contact', label: 'Contact', icon: FaEnvelope },
   ]
 

@@ -6,6 +6,7 @@ import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
+import Certificates from './components/Certificates'
 import Contact from './components/Contact'
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'skills', 'projects', 'contact']
+      const sections = ['home', 'about', 'skills', 'projects', 'certificates', 'contact']
       const scrollPosition = window.scrollY + 100
 
       sections.forEach(section => {
@@ -32,19 +33,20 @@ function App() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-white text-charcoal">
+    <div className="App">
+      <Navigation activeSection={activeSection} />
+      
       <main>
         <Hero />
         <About />
         <Skills />
         <Projects />
+        <Certificates />
         <Contact />
       </main>
-      
-      <Navigation activeSection={activeSection} />
-      
+
       <ToastContainer
-        position="top-right"
+        position="top-center"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -54,7 +56,11 @@ function App() {
         draggable
         pauseOnHover
         theme="light"
-        toastClassName="!bg-white !text-charcoal !border !border-gray-200"
+        toastStyle={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '14px',
+          borderRadius: '8px',
+        }}
       />
     </div>
   )
