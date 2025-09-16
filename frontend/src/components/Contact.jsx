@@ -13,19 +13,87 @@ const Contact = () => {
   })
   const [loading, setLoading] = useState(false)
 
+  // Phone number formatting function
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters except +
+    const cleaned = value.replace(/[^\d+]/g, '')
+    
+    // If it starts with +91, keep it as is
+    if (cleaned.startsWith('+91')) {
+      return cleaned
+    }
+    
+    // If it starts with 91 and is longer than 10 digits, add +
+    if (cleaned.startsWith('91') && cleaned.length > 10) {
+      return '+' + cleaned
+    }
+    
+    // If it's a 10-digit number and doesn't start with +91, keep as is
+    if (cleaned.length === 10 && !cleaned.startsWith('91')) {
+      return cleaned
+    }
+    
+    return cleaned
+  }
+
+  // Phone number validation function
+  const validatePhoneNumber = (phone) => {
+    // Remove all non-numeric characters except +
+    const cleaned = phone.replace(/[^\d+]/g, '')
+    
+    // Check for valid Indian phone number patterns
+    const patterns = [
+      /^\+91[6-9]\d{9}$/, // +91 followed by 10 digits starting with 6-9
+      /^91[6-9]\d{9}$/,   // 91 followed by 10 digits starting with 6-9
+      /^[6-9]\d{9}$/      // 10 digits starting with 6-9
+    ]
+    
+    return patterns.some(pattern => pattern.test(cleaned))
+  }
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    const { name, value } = e.target
+    
+    if (name === 'phone') {
+      const formattedPhone = formatPhoneNumber(value)
+      setFormData({
+        ...formData,
+        [name]: formattedPhone
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Validate phone number before submission
+    if (!validatePhoneNumber(formData.phone)) {
+      toast.error('Please enter a valid Indian phone number (10 digits starting with 6-9)', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      })
+      return
+    }
+    
     setLoading(true)
 
     try {
-      const response = await submitContact(formData)
+      // Ensure phone number is in correct format for backend
+      const submissionData = {
+        ...formData,
+        phone: formData.phone.startsWith('+') ? formData.phone : `+91${formData.phone.replace(/^91/, '')}`
+      }
+      
+      const response = await submitContact(submissionData)
       
       if (response.success) {
         toast.success(`Thank you ${formData.name}! Your message has been sent successfully. I will get back to you soon!`, {
@@ -175,6 +243,9 @@ const Contact = () => {
                       className="w-full px-4 py-3 bg-white border-2 border-light-gray rounded-xl focus:border-charcoal smooth-transition"
                       placeholder="+91 9876543210"
                     />
+                    <p className="text-xs text-medium-gray mt-1">
+                      Enter with or without +91 country code
+                    </p>
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-charcoal mb-3">
