@@ -7,34 +7,34 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: 'Interview Preparation Platform',
-      description: 'A full-stack web platform that helps job seekers prepare for interviews by offering personalized AI-generated questions, resume-based skill analysis, and progress tracking. Features secure user authentication, intelligent resume parsing with PyMuPDF, AI-powered question generation using OpenAI API, real-time feedback, and comprehensive progress tracking dashboard.',
-      image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=450&fit=crop&auto=format&q=80',
-      technologies: ['React.js', 'Vue.js', 'Node.js', 'Express.js', 'MongoDB Atlas', 'Firebase', 'PyMuPDF', 'OpenAI API', 'Tailwind CSS'],
+      title: 'ExamGenius AI',
+      description: 'ExamGenius AI is a full-stack AI-powered test preparation platform where users can attempt tests, track their performance, and improve through personalized practice. It analyzes incorrect answers using AI, generates custom questions based on user weaknesses, and offers real-time performance dashboards. The platform combines a seamless user interface with robust backend logic to deliver a smooth and intelligent learning experience that enhances preparation efficiency.',
+      image: '/examgenius.png',
+      technologies: ['React.js', 'Node.js', 'Express.js', 'PostgreSQL', 'OpenRouter API', 'Tailwind CSS', 'Vite'],
       status: 'Completed',
-      github: 'https://github.com/harshavardhan-hub/interview-prep-platform',
-      demo: 'https://github.com/harshavardhan-hub/interview-prep-platform'
+      github: 'https://github.com/harshavardhan-hub/Exam-Genius_AI',
+      demo: 'https://exam-genius-ai.vercel.app/'
     },
     {
       id: 2,
+      title: 'Harsha Vardhan Portfolio Website',
+      description: 'A full-stack personal portfolio designed to showcase skills, projects, and professional journey in an interactive and visually appealing way. Built for potential employers, clients, and collaborators, featuring React 18.2.0 with Vite for fast modular UI, custom typography with Playfair Display and Inter fonts, real-time WhatsApp alerts for contact form submissions, and optimized performance with accessibility focus.',
+      image: '/portfolio.png',
+      technologies: ['React', 'Vite', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'React Icons', 'React Toastify'],
+      status: 'Completed',
+      github: 'https://github.com/harshavardhan-hub/harsha-portfolio',
+      demo: 'https://harsha-portfolio-y6ty.onrender.com'
+    },
+    {
+      id: 3,
       title: 'Travel Planner App',
       description: 'A full-stack travel itinerary planner designed for effortless trip organization. Features secure Firebase Authentication for user sign-up and login, customizable trip planning with categories for accommodation, activities, and transport, favorite marking system for quick access to preferred destinations, and comprehensive itinerary management with real-time editing capabilities across all devices.',
-      image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=450&fit=crop&auto=format&q=80',
-      technologies: ['React.js', 'Tailwind CSS', 'Firebase', 'Firebase Authentication', 'Firebase Firestore'],
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&auto=format&q=80',
+      technologies: ['React.js', 'Tailwind CSS', 'Firebase', 'Firebase Authentication', 'Mongo DB'],
       status: 'Completed',
       github: 'https://github.com/harshavardhan-hub/travel-planner',
       demo: 'https://github.com/harshavardhan-hub/travel-planner'
     },
-    {
-      id: 3,
-      title: 'Harsha Vardhan Portfolio Website',
-      description: 'A full-stack personal portfolio designed to showcase skills, projects, and professional journey in an interactive and visually appealing way. Built for potential employers, clients, and collaborators, featuring React 18.2.0 with Vite for fast modular UI, custom typography with Playfair Display and Inter fonts, real-time WhatsApp alerts for contact form submissions, and optimized performance with accessibility focus.',
-      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=450&fit=crop&auto=format&q=80',
-      technologies: ['React 18.2.0', 'Vite', 'Tailwind CSS 3.3.5', 'Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'React Icons 4.11.0', 'React Toastify 9.1.3'],
-      status: 'Completed',
-      github: 'https://github.com/harshavardhan-hub/harsha-portfolio',
-      demo: 'https://harsha-portfolio-y6ty.onrender.com'
-    }
   ]
 
   // Intersection Observer for animations
